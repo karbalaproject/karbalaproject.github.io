@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Karbala Project</title>
+<title>The Karbala Project – Ocean Noor Edition</title>
 <script src="https://cdn.tailwindcss.com"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
 
-*{font-family:'Quicksand',sans-serif;transition:all .3s ease;box-sizing:border-box;}
+*{font-family:'Quicksand',sans-serif;box-sizing:border-box;transition:all .3s ease;}
 body{
-  background:linear-gradient(180deg,#ffffff 0%,#f6fbff 100%);
+  background:linear-gradient(180deg,#ffffff 0%,#f5fbff 100%);
   color:#0f172a;
-  overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 
-/* water shimmer overlay */
+/* floating light shimmer */
 body::before{
   content:"";
   position:fixed;inset:0;
   background:
-    radial-gradient(circle at 25% 25%,rgba(173,216,230,.25),transparent 60%),
-    radial-gradient(circle at 75% 75%,rgba(173,216,230,.25),transparent 60%);
-  animation:floatLight 15s ease-in-out infinite alternate;
+     radial-gradient(circle at 25% 25%,rgba(173,216,230,.25),transparent 60%),
+     radial-gradient(circle at 75% 75%,rgba(173,216,230,.25),transparent 60%);
+  animation:floatLight 14s ease-in-out infinite alternate;
   pointer-events:none;
 }
 @keyframes floatLight{
@@ -31,17 +32,17 @@ body::before{
   100%{transform:translateY(-20px);}
 }
 
-/* glowing glass */
+/* glowing glass panels */
 .glass{
-  background:rgba(173,216,230,.1);
+  background:rgba(173,216,230,.12);
   backdrop-filter:blur(12px);
   border:1px solid rgba(173,216,230,.3);
   border-radius:1rem;
   box-shadow:0 4px 24px rgba(0,100,255,.15);
 }
-.glass:hover{background:rgba(173,216,230,.2);transform:translateY(-4px);}
+.glass:hover{background:rgba(173,216,230,.25);transform:translateY(-4px);}
 
-/* buttons */
+/* main buttons */
 .btn{
   background:rgba(173,216,230,.25);
   border:1px solid rgba(0,100,255,.4);
@@ -58,25 +59,19 @@ body::before{
   box-shadow:0 6px 16px rgba(0,100,255,.3);
 }
 
-/* ripple effect */
+/* ripple glow */
+.glass{position:relative;overflow:hidden;}
 .glass::after{
   content:"";
-  position:absolute;
-  top:0;left:0;right:0;bottom:0;
+  position:absolute;top:0;left:0;right:0;bottom:0;
   border-radius:inherit;
   background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(173,216,230,.4),transparent 25%);
   opacity:0;
   transition:opacity .4s ease;
 }
 .glass:hover::after{opacity:.6;}
-.glass{position:relative;overflow:hidden;}
-.glass:hover{animation:rippleShine 2s linear infinite;}
-@keyframes rippleShine{
-  0%,100%{box-shadow:0 4px 24px rgba(0,100,255,.15);}
-  50%{box-shadow:0 4px 24px rgba(0,150,255,.3);}
-}
 
-/* header */
+/* header style */
 header{
   background:rgba(240,248,255,.7);
   backdrop-filter:blur(20px);
@@ -84,10 +79,27 @@ header{
   box-shadow:0 6px 30px rgba(0,100,255,.1);
 }
 h1.title{text-shadow:0 0 8px rgba(0,150,255,.4);}
+
+/* universal back bar */
+.backbar{
+  display:none;
+  position:sticky;top:0;
+  background:rgba(240,248,255,.8);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(173,216,230,.3);
+  padding:.6rem 1rem;
+  text-align:left;
+  z-index:10;
+}
+.backbar button{
+  @apply btn;
+}
 </style>
 </head>
+
 <body class="min-h-screen flex flex-col">
 
+<!-- HEADER -->
 <header class="py-8 text-center">
   <img src="https://yt3.googleusercontent.com/VGduObK0T5asTWtjCX-WOnAY8vmnj04PQJjyIPuIlkS0DYAexJCxsOFXuga36sbsVd4jmLcA=s160-c-k-c0x00ffffff-no-rj"
        alt="Logo" class="mx-auto w-20 h-20 rounded-xl mb-3 shadow-lg">
@@ -101,230 +113,236 @@ h1.title{text-shadow:0 0 8px rgba(0,150,255,.4);}
   </div>
 </header>
 
-<main class="flex-1 container mx-auto px-4 py-10 text-center space-y-8">
-  <div id="homeView">
-    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div class="glass p-10 cursor-pointer" onclick="showWatchListen()">
-        <h3 class="text-3xl font-semibold text-sky-600 mb-2">Media</h3>
-        <p class="text-sky-800">Majaalis, Nauhas, Qasidat & more.</p>
-      </div>
-      <div class="glass p-10 cursor-pointer" onclick="showRead()">
-        <h3 class="text-3xl font-semibold text-sky-600 mb-2">Reading Material</h3>
-        <p class="text-sky-800">Books, Ziyarats, Du’as & Munaajat.</p>
-      </div>
-      <div class="glass p-10 cursor-pointer" onclick="showGames()">
-        <h3 class="text-3xl font-semibold text-sky-600 mb-2">Games</h3>
-        <p class="text-sky-800">Interactive learning through play.</p>
-      </div>
-      <div class="glass p-10 cursor-pointer" onclick="showShiaSites()">
-        <h3 class="text-3xl font-semibold text-sky-600 mb-2">Shia Sites</h3>
-        <p class="text-sky-800">Authentic and verified sources.</p>
-      </div>
+<!-- BACK / HOME BAR -->
+<div id="backBar" class="backbar">
+  <button class="btn" onclick="goHome()">🏠 Home</button>
+</div>
+
+<!-- HOME PAGE -->
+<main class="flex-1 container mx-auto px-4 py-10 text-center space-y-8" id="homeView">
+  <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div class="glass p-10 cursor-pointer" onclick="showMedia()">
+      <h3 class="text-3xl font-semibold text-sky-600 mb-2">Media</h3>
+      <p class="text-sky-800">Majalis · Latmiyyat · Recitations · Speeches</p>
+    </div>
+    <div class="glass p-10 cursor-pointer" onclick="showReading()">
+      <h3 class="text-3xl font-semibold text-sky-600 mb-2">Reading Material</h3>
+      <p class="text-sky-800">Books, Ziyarats and Duas</p>
+    </div>
+    <div class="glass p-10 cursor-pointer" onclick="showGames()">
+      <h3 class="text-3xl font-semibold text-sky-600 mb-2">Games</h3>
+      <p class="text-sky-800">Safar Ila Karbala & Who Said It?</p>
+    </div>
+    <div class="glass p-10 cursor-pointer" onclick="showSites()">
+      <h3 class="text-3xl font-semibold text-sky-600 mb-2">Shia Sites</h3>
+      <p class="text-sky-800">Authentic resources & verified links</p>
+    </div>
+  </div>
+</main>
+
+  <!-- ========== MEDIA SECTION ========== -->
+<section id="mediaSection" class="hidden flex flex-col items-center space-y-6 py-10">
+  <h2 class="text-4xl text-sky-700 font-bold">Media</h2>
+  <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div class="glass p-8 cursor-pointer" onclick="openPlaylist('majalis')">
+      <h3 class="text-2xl text-sky-600 mb-2">Majalis</h3>
+      <p class="text-sky-900">Listen to heart-softening majalis of our scholars and reciters.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openPlaylist('latmiyyat')">
+      <h3 class="text-2xl text-sky-600 mb-2">Latmiyyat</h3>
+      <p class="text-sky-900">Latmiyyat full of love, loyalty, and remembrance.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openPlaylist('recitations')">
+      <h3 class="text-2xl text-sky-600 mb-2">Recitations</h3>
+      <p class="text-sky-900">Tilawat and Duas beautifully recited.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openPlaylist('speeches')">
+      <h3 class="text-2xl text-sky-600 mb-2">Speeches</h3>
+      <p class="text-sky-900">Powerful lectures and reflections on Karbala.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== READING SECTION ========== -->
+<section id="readingSection" class="hidden flex flex-col items-center space-y-6 py-10">
+  <h2 class="text-4xl text-sky-700 font-bold">Reading Material</h2>
+  <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div class="glass p-8 cursor-pointer" onclick="openBook('ziyarat')">
+      <h3 class="text-2xl text-sky-600 mb-2">Ziyarats</h3>
+      <p class="text-sky-900">Daily Ziyarats and duas for Ahl al-Bayt (ع).</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openBook('duas')">
+      <h3 class="text-2xl text-sky-600 mb-2">Duas</h3>
+      <p class="text-sky-900">Supplications of light and hope for every moment.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openBook('books')">
+      <h3 class="text-2xl text-sky-600 mb-2">Books</h3>
+      <p class="text-sky-900">Readable PDFs and texts about Karbala and faith.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="openBook('articles')">
+      <h3 class="text-2xl text-sky-600 mb-2">Articles</h3>
+      <p class="text-sky-900">Short reflections and research pieces on truth and devotion.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GAMES SECTION ========== -->
+<section id="gamesSection" class="hidden flex flex-col items-center space-y-6 py-10">
+  <h2 class="text-4xl text-sky-700 font-bold">Games</h2>
+  <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div class="glass p-8 cursor-pointer" onclick="startSafarGame()">
+      <h3 class="text-2xl text-sky-600 mb-2">Safar Ila Karbala</h3>
+      <p class="text-sky-900">Walk the journey to Karbala through interactive choices.</p>
+    </div>
+    <div class="glass p-8 cursor-pointer" onclick="startQuoteGame()">
+      <h3 class="text-2xl text-sky-600 mb-2">Who Said It?</h3>
+      <p class="text-sky-900">Match each quote to its speaker from Ahl al-Bayt (ع).</p>
     </div>
   </div>
 
-  <!-- ========== INNER SECTIONS ========== -->
-  <!-- Media Section -->
-  <section id="mediaSection" class="hidden space-y-6">
-    <h2 class="text-4xl text-sky-700 font-bold">Media</h2>
-    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div class="glass p-6">
-        <h3 class="text-2xl font-semibold text-sky-600 mb-2">Majalis</h3>
-        <audio controls class="w-full">
-          <source src="https://archive.org/download/majlis-sample/majlis-sample.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-      <div class="glass p-6">
-        <h3 class="text-2xl font-semibold text-sky-600 mb-2">Latmiyyat</h3>
-        <audio controls class="w-full">
-          <source src="https://archive.org/download/latmiyyah-sample/latmiyyah-sample.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-    </div>
-  </section>
+  <!-- GAME AREA -->
+  <div id="gameArea" class="hidden glass p-6 max-w-2xl mx-auto mt-6">
+    <h3 id="gameQuestion" class="text-2xl text-sky-700 font-semibold mb-4"></h3>
+    <div id="gameOptions" class="space-y-3"></div>
+    <button class="btn mt-6" onclick="nextQuestion()">Next</button>
+  </div>
+</section>
 
-  <!-- Reading Section -->
-  <section id="readSection" class="hidden space-y-6">
-    <h2 class="text-4xl text-sky-700 font-bold">Reading Material</h2>
-    <div class="glass p-6 max-w-3xl mx-auto">
-      <h3 class="text-2xl text-sky-600 mb-2">Ziyarat Ashura (Excerpt)</h3>
-      <p class="text-sky-900 leading-relaxed">
-        Peace be upon you, O Aba Abdillah, and upon the souls that were martyred with you...
-      </p>
-    </div>
-  </section>
+<!-- ========== SHIA SITES SECTION ========== -->
+<section id="sitesSection" class="hidden flex flex-col items-center space-y-6 py-10">
+  <h2 class="text-4xl text-sky-700 font-bold">Shia Sites</h2>
+  <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <a href="https://thaqalayn.net" target="_blank" class="glass p-6 block hover:scale-[1.02]">
+      <h3 class="text-2xl text-sky-600 mb-1">Thaqalayn .net</h3>
+      <p class="text-sky-900">Hadith collections of Ahl al-Bayt (ع).</p>
+    </a>
+    <a href="https://www.al-islam.org" target="_blank" class="glass p-6 block hover:scale-[1.02]">
+      <h3 class="text-2xl text-sky-600 mb-1">al-Islam .org</h3>
+      <p class="text-sky-900">Library of books and authentic resources.</p>
+    </a>
+    <a href="https://duas.org" target="_blank" class="glass p-6 block hover:scale-[1.02]">
+      <h3 class="text-2xl text-sky-600 mb-1">Duas .org</h3>
+      <p class="text-sky-900">Supplications and Ziyarats with translations.</p>
+    </a>
+    <a href="https://shiavault.com" target="_blank" class="glass p-6 block hover:scale-[1.02]">
+      <h3 class="text-2xl text-sky-600 mb-1">Shia Vault</h3>
+      <p class="text-sky-900">Collection of classical and modern Shia texts.</p>
+    </a>
+  </div>
+</section>
 
-  <!-- Games Section -->
-  <section id="gamesSection" class="hidden space-y-6">
-    <h2 class="text-4xl text-sky-700 font-bold">Games</h2>
+<!-- ========== ABOUT US SECTION ========== -->
+<section id="aboutSection" class="hidden flex flex-col items-center space-y-6 py-10">
+  <h2 class="text-4xl text-sky-700 font-bold">About Us</h2>
+  <div class="glass p-8 max-w-3xl mx-auto text-sky-900 leading-relaxed">
+    <p>The Karbala Project is a community effort to share the message of Imam al-Husayn (ع) through devotion, creativity, and education. We strive to build spaces of remembrance and knowledge that inspire loyalty and service.</p>
+    <p class="mt-2">May every click, every line of code, and every heartbeat echo <em>Ya Husayn (ع)</em>.</p>
+  </div>
+</section>
 
-    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div class="glass p-6 cursor-pointer" onclick="startSafarGame()">
-        <h3 class="text-2xl text-sky-600 mb-2">Safar Ila Karbala</h3>
-        <p class="text-sky-900">Begin the spiritual journey to Karbala – learn, reflect, and answer.</p>
-      </div>
-      <div class="glass p-6 cursor-pointer" onclick="startQuoteGame()">
-        <h3 class="text-2xl text-sky-600 mb-2">Who Said It?</h3>
-        <p class="text-sky-900">Match each quote to its holy speaker from Ahl al-Bayt (ع).</p>
-      </div>
-    </div>
-
-    <!-- Game Display Area -->
-    <div id="gameArea" class="hidden glass p-6 max-w-2xl mx-auto">
-      <h3 id="gameQuestion" class="text-2xl text-sky-700 font-semibold mb-4"></h3>
-      <div id="gameOptions" class="space-y-3"></div>
-      <button class="btn mt-6" onclick="nextQuestion()">Next</button>
-    </div>
-  </section>
-
-  <!-- Shia Sites Section -->
-  <section id="sitesSection" class="hidden space-y-6">
-    <h2 class="text-4xl text-sky-700 font-bold">Shia Sites</h2>
-    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <a href="https://www.al-islam.org" target="_blank" class="glass p-6 block hover:scale-[1.02]">
-        <h3 class="text-2xl text-sky-600 mb-1">al-Islam.org</h3>
-        <p class="text-sky-900">Authentic library of Shia books and references.</p>
-      </a>
-      <a href="https://thaqalayn.net" target="_blank" class="glass p-6 block hover:scale-[1.02]">
-        <h3 class="text-2xl text-sky-600 mb-1">Thaqalayn .net</h3>
-        <p class="text-sky-900">Hadith collections of Ahl al-Bayt (ع) in multiple languages.</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- About Us -->
-  <section id="aboutSection" class="hidden max-w-3xl mx-auto glass p-8 space-y-4">
-    <h2 class="text-4xl text-sky-700 font-bold">About Us</h2>
-    <p class="text-sky-900">
-      The Karbala Project is a humble initiative to share the message of Imam al-Husayn (ع) through
-      creativity, education, and devotion. Our goal is to make every heart a small Karbala – a place of
-      loyalty, love, and reflection.
-    </p>
-  </section>
-
-  <!-- Search / Kids Corner placeholders -->
-  <section id="searchSection" class="hidden glass p-8 max-w-2xl mx-auto space-y-4">
-    <h2 class="text-3xl text-sky-700 font-bold">Search</h2>
-    <input type="text" id="searchInput" placeholder="Search content…" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400">
-    <div id="searchResults" class="text-left text-sky-900"></div>
-  </section>
-
-  <section id="kidsSection" class="hidden glass p-8 max-w-2xl mx-auto space-y-4">
-    <h2 class="text-3xl text-sky-700 font-bold">Kids Corner</h2>
-    <p class="text-sky-900">Fun stories and simple lessons about Karbala for young hearts 💙</p>
-  </section>
-</main>
-
-  <!-- ================== JAVASCRIPT LOGIC ================== -->
-<script>
-// ---------- NAVIGATION ----------
-const sections = ["homeView","mediaSection","readSection","gamesSection","sitesSection","aboutSection","searchSection","kidsSection"];
-function showSection(id){
+  <script>
+// ===== NAVIGATION SYSTEM =====
+const sections=["homeView","mediaSection","readingSection","gamesSection","sitesSection","aboutSection"];
+function showOnly(id){
   sections.forEach(s=>document.getElementById(s).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
+  document.getElementById("backBar").style.display=id==="homeView"?"none":"block";
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function showWatchListen(){showSection("mediaSection");}
-function showRead(){showSection("readSection");}
-function showGames(){showSection("gamesSection");}
-function showShiaSites(){showSection("sitesSection");}
-function showAbout(){showSection("aboutSection");}
+function goHome(){showOnly("homeView");}
+function showMedia(){showOnly("mediaSection");}
+function showReading(){showOnly("readingSection");}
+function showGames(){showOnly("gamesSection");}
+function showSites(){showOnly("sitesSection");}
+function showAbout(){showOnly("aboutSection");}
 function openWhatsApp(){window.open("https://wa.me/message/77QH2A7E2ZSQI1","_blank");}
 function openYouTube(){window.open("https://www.youtube.com/@karbalaproject","_blank");}
 
-// ---------- SEARCH ----------
-const searchInput=document.getElementById("searchInput");
-if(searchInput){
-  searchInput.addEventListener("keyup",()=>{
-    const q=searchInput.value.toLowerCase();
-    const res=document.getElementById("searchResults");
-    if(!q){res.innerHTML="";return;}
-    const data=["Imam Husayn","Ziyarat","Dua","Latmiyyah","Safar Ila Karbala"];
-    const matches=data.filter(d=>d.toLowerCase().includes(q));
-    res.innerHTML=matches.length?matches.map(m=>`<div>🔹 ${m}</div>`).join(""):"No results.";
-  });
+// ===== MEDIA & READING BUTTONS =====
+function openPlaylist(type){
+  const urls={
+    majalis:"https://www.youtube.com/playlist?list=YOUR_MAJALIS_PLAYLIST",
+    latmiyyat:"https://www.youtube.com/playlist?list=YOUR_LATMIYYAT_PLAYLIST",
+    recitations:"https://www.youtube.com/playlist?list=YOUR_RECITATIONS_PLAYLIST",
+    speeches:"https://www.youtube.com/playlist?list=YOUR_SPEECHES_PLAYLIST"
+  };
+  window.open(urls[type]||"https://www.youtube.com/@karbalaproject","_blank");
+}
+function openBook(type){
+  const links={
+    ziyarat:"https://duas.org/ziyarat.htm",
+    duas:"https://duas.org/",
+    books:"https://www.al-islam.org/",
+    articles:"https://thaqalayn.net/"
+  };
+  window.open(links[type]||"#","_blank");
 }
 
-// ---------- SAFAR ILA KARBALA ----------
+// ===== SAFAR ILA KARBALA GAME =====
 const safarBase=[
- {q:"You stand at the Shrine of Imam Ali (as) in Najaf.",
-  o:["Recite Ziyarat Ameer al-Mu'mineen with tears","Rush to begin your journey immediately"],a:0},
- {q:"A volunteer offers you food before you begin walking.",
-  o:["Accept it with gratitude","Refuse, saying you want to walk in hunger like Imam Husayn’s companions"],a:0},
- {q:"You see trash on the road.",
-  o:["Ignore it","Pick it up to keep the path of Ziyarat clean"],a:1},
- {q:"A child offers you water.",
-  o:["Take a sip and thank them","Refuse politely"],a:0},
- {q:"At the end of your journey, you are asked: “What did you learn on your Safar?”",
-  o:["That the road is long but love is longer.","That I am strong and can handle hardship."],a:0}
+ {q:"You stand at the Shrine of Imam Ali (as) in Najaf.",o:["Recite Ziyarat Ameer al-Mu'mineen with tears","Rush to begin your journey immediately"],a:0},
+ {q:"A volunteer offers you food before you begin walking.",o:["Accept it with gratitude","Refuse, saying you want to walk in hunger like Imam Husayn’s companions"],a:0},
+ {q:"You see trash on the road.",o:["Ignore it","Pick it up to keep the path of Ziyarat clean"],a:1},
+ {q:"A child offers you water.",o:["Take a sip and thank them","Refuse politely"],a:0},
+ {q:"At the end of your journey, you are asked: “What did you learn on your Safar?”",o:["That the road is long but love is longer.","That I am strong and can handle hardship."],a:0}
 ];
-
 let currentGame=null,currentQ=0,questions=[];
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-2;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
+function shuffleExceptLast(arr){
+  const last=arr[arr.length-1],rest=arr.slice(0,-1);
+  for(let i=rest.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[rest[i],rest[j]]=[rest[j],rest[i]];}
+  return [...rest,last];
 }
-function getSafarQuestions(){
-  const last=safarBase[safarBase.length-1];
-  const rest=safarBase.slice(0,-1);
-  return [...shuffle(rest),last];
-}
-
 function startSafarGame(){
   currentGame="safar";
+  questions=shuffleExceptLast(safarBase);
   currentQ=0;
-  questions=getSafarQuestions();
-  showSection("gamesSection");
   document.getElementById("gameArea").classList.remove("hidden");
   showQuestion();
 }
 
-// ---------- QUOTE GAME ----------
+// ===== QUOTE GAME =====
 const quotes=[
  {q:"He who has a thousand friends has not a friend to spare, and he who has one enemy will meet him everywhere.",o:["Imam Ali (as)","Imam Husayn (as)"],a:0},
  {q:"If you do not have faith in religion, at least be free in your world.",o:["Imam Husayn (as)","Imam Ali (as)"],a:0}
 ];
 function startQuoteGame(){
   currentGame="quote";
-  currentQ=0;
   questions=quotes;
-  showSection("gamesSection");
+  currentQ=0;
   document.getElementById("gameArea").classList.remove("hidden");
   showQuestion();
 }
 
+// ===== GAME DISPLAY LOGIC =====
 function showQuestion(){
   const q=questions[currentQ];
   document.getElementById("gameQuestion").textContent=q.q;
-  const ops=q.o.map((opt,i)=>`
-    <button class="btn block w-full" onclick="checkAnswer(${i})">${opt}</button>
-  `).join("");
-  document.getElementById("gameOptions").innerHTML=ops;
+  document.getElementById("gameOptions").innerHTML=q.o.map((opt,i)=>`<button class="btn block w-full" onclick="checkAnswer(${i})">${opt}</button>`).join("");
 }
-
 function checkAnswer(i){
   const q=questions[currentQ];
-  const msg=i===q.a?"✅ Correct!":"❌ Try again!";
-  alert(msg);
+  alert(i===q.a?"✅ Correct!":"❌ Try again!");
 }
 function nextQuestion(){
   currentQ++;
-  if(currentQ>=questions.length){alert("Game complete! 💙");document.getElementById("gameArea").classList.add("hidden");return;}
+  if(currentQ>=questions.length){
+    alert("Game complete 💙");
+    document.getElementById("gameArea").classList.add("hidden");
+    return;
+  }
   showQuestion();
 }
 
-// ---------- SIMPLE SOUNDS ----------
+// ===== SOUNDS =====
 const clickSound=new Audio("https://archive.org/download/button-click-sound/button-click.mp3");
 document.querySelectorAll(".btn").forEach(b=>{
   b.addEventListener("click",()=>{clickSound.volume=0.2;clickSound.play();});
 });
 
-// ---------- BACKGROUND AMBIENT SOUND ----------
-const bgSound=new Audio("https://archive.org/download/ocean-ambience/ocean-ambience.mp3");
-bgSound.loop=true; bgSound.volume=0.05;
-window.addEventListener("load",()=>setTimeout(()=>bgSound.play().catch(()=>{}),1000));
+// background ocean ambience
+const bg=new Audio("https://archive.org/download/ocean-ambience/ocean-ambience.mp3");
+bg.loop=true; bg.volume=0.05;
+window.addEventListener("load",()=>setTimeout(()=>bg.play().catch(()=>{}),1500));
 </script>
-
 </body>
 </html>
